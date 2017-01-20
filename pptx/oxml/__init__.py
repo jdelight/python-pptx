@@ -95,6 +95,10 @@ register_element_cls('c:dLblPos', CT_DLblPos)
 register_element_cls('c:dLbls',   CT_DLbls)
 
 
+from .chart.title import CT_Title
+register_element_cls('c:title', CT_Title)
+
+
 from .chart.legend import CT_Legend, CT_LegendPos
 register_element_cls('c:legend',    CT_Legend)
 register_element_cls('c:legendPos', CT_LegendPos)

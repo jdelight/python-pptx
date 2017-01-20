@@ -6,6 +6,7 @@ Axis-related oxml objects.
 
 from __future__ import absolute_import, print_function, unicode_literals
 
+from .title import TitleMixin
 from ...enum.chart import (
     XL_AXIS_CROSSES, XL_TICK_LABEL_POSITION, XL_TICK_MARK
 )
@@ -17,10 +18,16 @@ from ..xmlchemy import (
 )
 
 
-class BaseAxisElement(BaseOxmlElement):
+class BaseAxisElement(BaseOxmlElement, TitleMixin):
     """
     Base class for catAx, valAx, and perhaps other axis elements.
     """
+
+    title = ZeroOrOne('c:title', successors=(
+        'c:numFmt', 'c:majorTickMark', 'c:minorTickMark',
+        'c:tickLblPos', 'c:spPr', 'c:txPr', 'c:crossAx'
+    ))
+
     @property
     def defRPr(self):
         """
@@ -213,4 +220,5 @@ class CT_ValAx(BaseAxisElement):
     crossesAt = ZeroOrOne('c:crossesAt', successors=_tag_seq[16:])
     majorUnit = ZeroOrOne('c:majorUnit', successors=_tag_seq[18:])
     minorUnit = ZeroOrOne('c:minorUnit', successors=_tag_seq[19:])
+
     del _tag_seq

@@ -10,6 +10,7 @@ from ..dml.chtfmt import ChartFormat
 from ..enum.chart import (
     XL_AXIS_CROSSES, XL_CATEGORY_TYPE, XL_TICK_LABEL_POSITION, XL_TICK_MARK
 )
+from .title import ChartTitle
 from ..oxml.ns import qn
 from ..shared import ElementProxy
 from ..text.text import Font
@@ -193,6 +194,29 @@ class _BaseAxis(object):
             )
         delete = self._element.get_or_add_delete_()
         delete.val = not value
+
+    @property
+    def has_title(self):
+        """
+        Read/write boolean, |True| if the axis has a title. Assigning
+        |True| causes a title to be added to the axis if it doesn't already
+        have one. Assigning False removes any existing title definition.
+        """
+        return self._element.has_title
+
+    @has_title.setter
+    def has_title(self, value):
+        self._element.has_title = bool(value)
+
+    @property
+    def title(self):
+        """
+        A |Title| object providing access to the properties of this axis's title.
+        """
+        title_elm = self._element.title
+        if title_elm is None:
+            return None
+        return ChartTitle(title_elm)
 
 
 class CategoryAxis(_BaseAxis):
